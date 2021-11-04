@@ -1,41 +1,75 @@
+#include <stdio.h>
 #include <iostream>
-#include <string>
 using namespace std;
+
+struct charandnum
+{
+    char ch;
+    int count;
+};
+
 int main()
 {
-    string in;
-    cin >> in;
-    char b[501][501] = {0};
-    int count[501] = {0};
-    for (int i = 0; in[i] != '\0'; i++)
+    struct charandnum s[501], max, second;
+    char a[501];
+    cin >> a;
+    int i, j, l = 0;
+    for (i = 0; a[i] != '\0'; i++)
     {
-        if (isalpha(in[i]))
+        if ((a[i] >= 'A' && a[i] <= 'Z') || (a[i] >= 'a' && a[i] <= 'z'))
         {
-            if (isupper(in[i]))
-            {
-                b[tolower(in[i])][i] = 1;
-                count[tolower(in[i])]++;
-            }
+            char temp;
+            if (a[i] >= 'a')
+                temp = a[i] - 32;
             else
+                temp = a[i];
+            bool found = false;
+            for (j = 0; j < l; j++)
             {
-                b[in[i]][i] = 1;
-                count[in[i]]++;
-            }
-        }
-    }
-    for (int i = 0; i < 26; i++)
-    {
-        if (count[i] > 0)
-        {
-            for (int j = 0; j < 501; j++)
-            {
-                if (b[i][j] == 1)
+                if (s[j].ch == temp)
                 {
-                    cout << char(i);
+                    s[j].count++;
+                    found = true;
                 }
             }
+            if (!found)
+            {
+                s[l].ch = temp;
+                s[l].count = 1;
+                l++;
+            }
         }
     }
+    max = s[0];
+    bool foundSecond = false;
+    i = 0;
+    while (!foundSecond)
+    {
+        if (s[i].count > max.count)
+        {
+            second = max;
+            max = s[i];
+            foundSecond = true;
+        }
+        else if (s[i].count < max.count)
+        {
+            second = s[i];
+            foundSecond = true;
+        }
+        i++;
+    }
+    for (i; i < l - 1; i++)
+    {
+        if (s[i].count > max.count)
+        {
+            second = max;
+            max = s[i];
+        }
+        else if (s[i].count < max.count && s[i].count > second.count)
+        {
+            second = s[i];
+        }
+    }
+    printf("%c+%c:%d\n", second.ch, (char)(second.ch + 32), second.count);
     return 0;
-
 }
