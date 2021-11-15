@@ -2,21 +2,37 @@
 #define __COMPLEX__
 
 #include <cmath>
-
-template <typename T>
+#include <iostream>
 class complex
 {
 private:
-    T re, im;
+    double re, im;
 
 public:
-    complex(double r = 0, double i = 0)
-        : re(r), im(r)
+    complex(double r, double i)
     {
+        this->re = r;
+        this->im = i;
     }
-    complex &operator+=(const complex &);
-    double real() const { return re; }
-    double imag() const { return im; }
+    complex &operator+=(const complex &r)
+    {
+        this->re += r.re;
+        this->im += r.im;
+        return *this;
+    }
+
+    double real() const { return this->re; }
+    double imag() const { return this->im; }
 };
+
+complex operator+(complex a, complex b) //传值，不会改变a的值
+{
+    return a += b;
+}
+
+std::ostream &operator<<(std::ostream &os, const complex &c)
+{
+    return os << c.real() << "+" << c.imag() << "i";
+}
 
 #endif
