@@ -25,9 +25,19 @@ public:
     double imag() const { return this->im; }
 };
 
-complex operator+(complex a, complex b) //传值，不会改变a的值
+inline complex operator+(const complex &a, const complex &b)
 {
-    return a += b;
+    return complex(a.real() + b.real(), a.imag() + b.imag());
+}
+
+inline complex operator+(const complex &a, double b)
+{
+    return complex(a.real() + b, a.imag());
+}
+
+inline complex operator+(double a, const complex &b)
+{
+    return complex(a + b.real(), b.imag());
 }
 
 std::ostream &operator<<(std::ostream &os, const complex &c)

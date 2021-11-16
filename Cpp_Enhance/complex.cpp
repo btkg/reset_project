@@ -7,5 +7,8 @@ int main()
     std::cout << c1 << std::endl;
     std::cout << c2 << std::endl;
     std::cout << c3 << std::endl;
+    double a = 1.0;
+    std::cout << a + c1 << std::endl;
+    std::cout << c1 + a << std::endl;
     return 0;
 }
